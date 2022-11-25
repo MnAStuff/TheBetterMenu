@@ -7,7 +7,8 @@ export const LoginFormContainer = styled.div`
   justify-content: center;
   background-color: white;
   width: 30%;
-  height: 30%;
+  min-width: 300px;
+  padding: 30px 0px 30px 0px;
   border-radius: 4px;
 `;
 
