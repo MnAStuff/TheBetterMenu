@@ -11,13 +11,3 @@ export const LoginFormContainer = styled.div`
   padding: 30px 0px 30px 0px;
   border-radius: 4px;
 `;
-
-export const LoginScreenContainer = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  justify-content: center;
-  background-color: aliceblue;
-  align-items: center;
-  vertical-align: middle;
-`;

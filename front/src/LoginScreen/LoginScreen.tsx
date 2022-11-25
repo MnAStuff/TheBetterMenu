@@ -1,25 +1,67 @@
 import { Button } from "@mui/material";
 import { Input } from "../components/Input";
-import { LoginScreenContainer, LoginFormContainer } from "./styles";
+import { LoginFormContainer } from "./styles";
 import { useNavigate } from "react-router-dom";
-import { Icon } from "../styles/styles";
+import { Icon, ScreenContainer } from "../styles/styles";
 import logo from "../resources/logo.png";
+import { useState } from "react";
+
+interface ILoginData {
+  login: string;
+  password: string;
+}
 
 export function LoginScreen() {
   const navigate = useNavigate();
-  function handleLogin() {
-    navigate("/owner");
+  const [state, setState] = useState<ILoginData>({
+    login: "",
+    password: "",
+  });
+  async function handleLogin() {
+    const response = await fetch("http://172.16.4.85:5001/login", {
+      method: "POST",
+      body: JSON.stringify(state),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    console.log(await response.json());
+    if (!response.ok) {
+      throw new Error(`Error! status: ${response.status}`);
+    } else {
+      navigate("/owner");
+    }
   }
   return (
-    <LoginScreenContainer>
+    <ScreenContainer>
       <LoginFormContainer>
         <Icon src={logo} />
-        <Input title={"Login"} />
-        <Input title="Password" />
+        <Input
+          title={"Login"}
+          onChange={(e: any) => {
+            setState(
+              Object.assign(state as ILoginData, {
+                login: e?.target.value,
+              })
+            );
+          }}
+        />
+        <Input
+          title="Password"
+          isPassword={true}
+          onChange={(e: any) => {
+            setState(
+              Object.assign(state as ILoginData, {
+                password: e?.target.value,
+              })
+            );
+          }}
+        />
         <Button variant="outlined" size="small" onClick={handleLogin}>
           {"Login"}
         </Button>
       </LoginFormContainer>
-    </LoginScreenContainer>
+    </ScreenContainer>
   );
 }

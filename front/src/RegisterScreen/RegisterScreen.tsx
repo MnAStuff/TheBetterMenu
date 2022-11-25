@@ -2,21 +2,21 @@ import { Button } from "@mui/material";
 import { useState } from "react";
 import { Input } from "../components/Input";
 import { isValidEmail } from "../utils/isValidEmail";
-import { RegisterScreenContainer, RegisterFormContainer } from "./styles";
-import { Icon } from "../styles/styles";
+import { RegisterFormContainer } from "./styles";
+import { Icon, ScreenContainer } from "../styles/styles";
 import { useNavigate } from "react-router-dom";
 import logo from "../resources/logo.png";
 
 const fieldIDs = ["Login", "Password", "Email"];
 
 interface IRegisterData {
-  Login: string;
-  Password: string;
-  Email: string;
+  login: string;
+  password: string;
+  email: string;
 }
 
 function isValidRegisterData(state: IRegisterData | undefined) {
-  if (!isValidEmail(state?.Email)) {
+  if (!isValidEmail(state?.email)) {
     throw new Error("Invalid parameters");
   }
   return true;
@@ -25,13 +25,13 @@ function isValidRegisterData(state: IRegisterData | undefined) {
 export function RegisterScreen() {
   const navigate = useNavigate();
   const [state, setState] = useState<IRegisterData | undefined>({
-    Login: "",
-    Password: "",
-    Email: "",
+    login: "",
+    password: "",
+    email: "",
   });
   async function handleRegister() {
     if (isValidRegisterData(state)) {
-      const response = await fetch("https://localhost", {
+      const response = await fetch("http://172.16.4.85:5001/registration", {
         method: "POST",
         body: JSON.stringify(state),
         headers: {
@@ -39,22 +39,26 @@ export function RegisterScreen() {
           Accept: "application/json",
         },
       });
+      console.log(await response.json());
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
+      } else {
+        navigate("/owner");
       }
     }
   }
   return (
-    <RegisterScreenContainer>
+    <ScreenContainer>
       <RegisterFormContainer>
         <Icon src={logo} />
         {fieldIDs.map((name: string) => (
           <Input
             title={name}
+            isPassword={name === "Password" ? true : false}
             onChange={(e: any) => {
               setState(
                 Object.assign(state as IRegisterData, {
-                  [name]: e?.target.value,
+                  [name.toLowerCase()]: e?.target.value,
                 })
               );
             }}
@@ -68,6 +72,6 @@ export function RegisterScreen() {
           {"Login"}
         </Button>
       </RegisterFormContainer>
-    </RegisterScreenContainer>
+    </ScreenContainer>
   );
 }
