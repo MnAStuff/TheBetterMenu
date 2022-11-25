@@ -1,21 +1,26 @@
 import { Restaurant } from "../types/Restaurant";
-import { MenuBook, Menu, TableBar, ViewList } from "@mui/icons-material/";
+import {
+  MenuBook,
+  Menu as MenuIcon,
+  TableBar,
+  ViewList,
+} from "@mui/icons-material/";
 import Drawer from "@mui/material/Drawer";
 import { useState } from "react";
 import { Box, IconButton, Toolbar } from "@mui/material";
 import QRCode from "qrcode";
 import AppBar from "@mui/material/AppBar";
+import { Menu } from "./Menu/Menu";
 
 type Props = {
   restaurants: Restaurant[];
-  qr: any;
 };
 
 const drawerWidth = 240;
 
 export function OwnerScreen() {
   const [state, setState] = useState({
-    open: true,
+    open: false,
     qr: "",
   });
   const handleDrawerOpen = () => {
@@ -36,11 +41,12 @@ export function OwnerScreen() {
       <AppBar position="static">
         <Toolbar>
           <IconButton onClick={handleDrawerOpen}>
-            <Menu color="inherit" />
+            <MenuIcon color="inherit" />
           </IconButton>
         </Toolbar>
       </AppBar>
       <img src={state.qr}></img>
+      <Menu />
       <Drawer
         variant="persistent"
         open={state.open}
