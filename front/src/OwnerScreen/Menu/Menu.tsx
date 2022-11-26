@@ -15,7 +15,11 @@ interface SS {
   dishes: Item[][];
 }
 
-export function Menu() {
+type Props = {
+  isOwner?: boolean;
+};
+
+export function Menu({ isOwner }: Props) {
   const [state, setState] = useState({ categoryNames: [], dishes: [] } as SS);
   const menuId = window.location.href.split("/").slice(-1)[0];
   useEffect(() => {

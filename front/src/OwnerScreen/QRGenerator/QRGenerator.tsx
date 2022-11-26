@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import { Input } from "../../components/Input";
-import { InputContainer, QRCodeContainer, ScreenContainer } from "./styles";
+import {
+  InputContainer,
+  QRCodeContainer,
+  QRWrapper,
+  ScreenContainer,
+} from "./styles";
 import QRCode from "qrcode";
 import { root } from "../../utils/root";
+import { List } from "@mui/material";
 
 export function QRGenerator() {
   const [state, setState] = useState({ tableNumber: 0, urls: [] as string[] });
@@ -32,11 +38,26 @@ export function QRGenerator() {
           }}
         />
       </InputContainer>
-      <QRCodeContainer>
-        {state.urls.map((url) => (
-          <img width={200} height={200} src={url} alt="" />
-        ))}
-      </QRCodeContainer>
+      <List
+        sx={{
+          width: "100%",
+          maxWidth: window.innerWidth - 100,
+          bgcolor: "background.paper",
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+      >
+        <QRCodeContainer>
+          {state.urls.map((url, idx) => (
+            <QRWrapper className="qr">
+              {idx}
+              <img width={200} height={200} src={url} alt="" />
+            </QRWrapper>
+          ))}
+        </QRCodeContainer>
+      </List>
     </ScreenContainer>
   );
 }

@@ -37,7 +37,7 @@ function DrawerIcon({ icon, title, onClick }: DrawerIconProps) {
 export function OwnerScreen() {
   const [state, setState] = useState({
     open: false,
-    option: 0,
+    option: 1,
   });
   const handleDrawerOpen = () => {
     setState({ open: true, option: state.option });
@@ -59,11 +59,6 @@ export function OwnerScreen() {
         open={state.open}
         sx={{ width: drawerWidth, flexShrink: 0, minWidth: "200px" }}
       >
-        <DrawerIcon
-          title="Tables"
-          onClick={() => setState({ open: false, option: 0 })}
-          icon={<TableBar color="primary" />}
-        />
         <DrawerIcon
           title="Menu"
           onClick={() => setState({ open: false, option: 1 })}

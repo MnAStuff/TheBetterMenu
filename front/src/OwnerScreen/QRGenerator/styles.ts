@@ -5,8 +5,6 @@ export const ScreenContainer = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100vh;
-  justify-content: center;
-  align-items: center;
   background-color: aliceblue;
 `;
 
@@ -22,4 +20,12 @@ export const InputContainer = styled.div`
   width: 200px;
   margin-left: auto;
   margin-right: auto;
+`;
+
+export const QRWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  width: 200px;
+  height: 250px;
 `;
