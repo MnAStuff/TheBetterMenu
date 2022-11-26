@@ -29,7 +29,8 @@ export function LoginScreen() {
     if (!response.ok) {
       throw new Error(`Error! status: ${response.status}`);
     } else {
-      navigate("/owner");
+      const menu = (await response.json()).menu_id;
+      navigate(`/owner/${parseInt(menu)}`);
     }
   }
   return (

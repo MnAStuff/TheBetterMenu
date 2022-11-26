@@ -76,7 +76,7 @@ export function OwnerScreen() {
         />
       </Drawer>
       {state.option === 3 && <QRGenerator />}
-      {state.option === 1 && <Menu />}
+      {state.option === 1 && <Menu isOwner={true} />}
     </Box>
   );
 }

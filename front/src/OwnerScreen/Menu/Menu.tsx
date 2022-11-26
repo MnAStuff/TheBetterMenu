@@ -4,6 +4,7 @@ import { MenuItem } from "./MenuItem/MenuItem";
 import { Item } from "../../types/Item";
 import { Category } from "./Category/Category";
 import { useEffect, useState } from "react";
+import { ItemCreator } from "./ItemCreator/ItemCreator";
 
 async function getMenu(url: string) {
   const menuRaw = await fetch(url).then(async (res) => res.json());
@@ -55,6 +56,7 @@ export function Menu({ isOwner }: Props) {
             ))}
           </Category>
         ))}
+        {isOwner && <ItemCreator />}
       </List>
     </MenuContainer>
   );

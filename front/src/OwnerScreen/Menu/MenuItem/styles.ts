@@ -10,7 +10,7 @@ export const MenuItemContainer = styled.div`
 `;
 
 export const Name = styled.span`
-  width: 200px;
+  width: 300px;
   font-size: 36px;
 `;
 
