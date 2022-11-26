@@ -6,11 +6,12 @@ import {
   ViewList,
 } from "@mui/icons-material/";
 import Drawer from "@mui/material/Drawer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, IconButton, Toolbar } from "@mui/material";
 import QRCode from "qrcode";
 import AppBar from "@mui/material/AppBar";
 import { Menu } from "./Menu/Menu";
+import { root } from "../utils/root";
 
 type Props = {
   restaurants: Restaurant[];
@@ -23,26 +24,29 @@ export function OwnerScreen() {
     open: false,
     qr: "",
   });
+
   const handleDrawerOpen = () => {
-    setState(Object.assign(state, { open: true }));
+    setState({ open: true, qr: state.qr });
   };
   const handleDrawerClose = () => {
-    setState(Object.assign(state, { open: !state.open }));
+    setState({ open: false, qr: state.qr });
   };
-  QRCode.toDataURL("http://172.16.4.85:5001/menu/1")
-    .then((url) => {
-      setState(Object.assign(state, { qr: url }));
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  console.log(state);
+  useEffect(() => {
+    QRCode.toDataURL(root + "menu/1")
+      .then((url) => {
+        setState({ open: state.open, qr: url });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    console.log(1);
+  }, []);
   return (
     <Box onClick={handleDrawerClose}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton onClick={handleDrawerOpen}>
-            <MenuIcon color="inherit" />
+          <IconButton>
+            <MenuIcon color="inherit" onClick={handleDrawerOpen} />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -53,7 +57,7 @@ export function OwnerScreen() {
         open={state.open}
         sx={{ width: drawerWidth, flexShrink: 0 }}
       >
-        <img src={state.qr}></img>
+        <img src={state.qr} alt=""></img>
         <MenuBook color="primary" />
         <TableBar color="primary" />
         <ViewList color="primary" />
