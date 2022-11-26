@@ -26,7 +26,6 @@ export function LoginScreen() {
         Accept: "application/json",
       },
     });
-    console.log(await response.json());
     if (!response.ok) {
       throw new Error(`Error! status: ${response.status}`);
     } else {

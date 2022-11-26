@@ -10,8 +10,8 @@ const MyRoutes = () => (
     <Link to="/login">Login</Link>
     <Link to="/owner/1">Owner</Link>
     <Link to="/register">Register</Link>
-    <Link to="/menu/1">Menu</Link>
-    <Link to="/menu/2">Menu2</Link>
+    <Link to="/menu/16/1">Menu</Link>
+    <Link to="/menu/3/2">Menu2</Link>
   </div>
 );
 
@@ -23,7 +23,7 @@ function App() {
           <Route path="/login" element={<LoginScreen />} />
           <Route path="/owner/:id" element={<OwnerScreen />} />
           <Route path="/register" element={<RegisterScreen />} />
-          <Route path="/menu/:id" element={<Menu />} />
+          <Route path="/menu/:table/:id" element={<Menu />} />
           <Route path="/" element={<MyRoutes />} />
         </Routes>
       </Router>

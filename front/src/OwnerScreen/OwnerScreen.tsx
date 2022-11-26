@@ -4,14 +4,15 @@ import {
   Menu as MenuIcon,
   TableBar,
   ViewList,
+  QrCode2,
 } from "@mui/icons-material/";
 import Drawer from "@mui/material/Drawer";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Box, IconButton, Toolbar } from "@mui/material";
-import QRCode from "qrcode";
 import AppBar from "@mui/material/AppBar";
 import { Menu } from "./Menu/Menu";
-import { root } from "../utils/root";
+import { DrawerIconContainer } from "./styles";
+import { QRGenerator } from "./QRGenerator/QRGenerator";
 
 type Props = {
   restaurants: Restaurant[];
@@ -19,49 +20,68 @@ type Props = {
 
 const drawerWidth = 240;
 
+interface DrawerIconProps {
+  icon: any;
+  title: string;
+  onClick: any;
+}
+function DrawerIcon({ icon, title, onClick }: DrawerIconProps) {
+  return (
+    <DrawerIconContainer onClick={onClick}>
+      {title}
+      {icon}
+    </DrawerIconContainer>
+  );
+}
+
 export function OwnerScreen() {
   const [state, setState] = useState({
     open: false,
-    qr: "",
+    option: 0,
   });
-
   const handleDrawerOpen = () => {
-    setState({ open: true, qr: state.qr });
+    setState({ open: true, option: state.option });
   };
   const handleDrawerClose = () => {
-    setState({ open: false, qr: state.qr });
+    setState({ open: false, option: state.option });
   };
-  useEffect(() => {
-    QRCode.toDataURL(root + "menu/1")
-      .then((url) => {
-        setState({ open: state.open, qr: url });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-    console.log(1);
-  }, []);
   return (
-    <Box onClick={handleDrawerClose}>
+    <Box>
       <AppBar position="static">
         <Toolbar>
-          <IconButton>
-            <MenuIcon color="inherit" onClick={handleDrawerOpen} />
+          <IconButton onClick={handleDrawerOpen}>
+            <MenuIcon color="inherit" />
           </IconButton>
         </Toolbar>
       </AppBar>
-
-      <Menu />
       <Drawer
         variant="persistent"
         open={state.open}
-        sx={{ width: drawerWidth, flexShrink: 0 }}
+        sx={{ width: drawerWidth, flexShrink: 0, minWidth: "200px" }}
       >
-        <img src={state.qr} alt=""></img>
-        <MenuBook color="primary" />
-        <TableBar color="primary" />
-        <ViewList color="primary" />
+        <DrawerIcon
+          title="Tables"
+          onClick={() => setState({ open: false, option: 0 })}
+          icon={<TableBar color="primary" />}
+        />
+        <DrawerIcon
+          title="Menu"
+          onClick={() => setState({ open: false, option: 1 })}
+          icon={<MenuBook color="primary" />}
+        />
+        <DrawerIcon
+          title="Events"
+          onClick={() => setState({ open: false, option: 2 })}
+          icon={<ViewList color="primary" />}
+        />
+        <DrawerIcon
+          title="Qr Codes"
+          onClick={() => setState({ open: false, option: 3 })}
+          icon={<QrCode2 color="primary" />}
+        />
       </Drawer>
+      {state.option === 3 && <QRGenerator />}
+      {state.option === 1 && <Menu />}
     </Box>
   );
 }
