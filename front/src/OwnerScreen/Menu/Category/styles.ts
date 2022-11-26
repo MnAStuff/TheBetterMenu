@@ -9,6 +9,7 @@ export const CategoryContainer = styled.div`
   align-items: center;
   box-shadow: 5px 5px 30px lightgray;
   padding-left: 30px;
+  border-radius: 4px;
 `;
 
 export const CategoryCard = styled.div`

@@ -1,25 +1,38 @@
 import { List } from "@mui/material";
-import ListSubheader from "@mui/material/ListSubheader";
 import { MenuContainer } from "./styles";
 import { MenuItem } from "./MenuItem/MenuItem";
 import { Item } from "../../types/Item";
 import { Category } from "./Category/Category";
-// import ExpandLess from "@mui/icons-material/ExpandLess";
-// import ExpandMore from "@mui/icons-material/ExpandMore";
+import { useEffect, useState } from "react";
 
-const someDish: Item = {
-  name: "Borsch",
-  description:
-    // eslint-disable-next-line no-multi-str
-    " a tasty russian soup  a tasty russian soup  \
-    a tasty russian soup  a tasty russian soup  a \
-    tasty russian soup  a tasty russian soup  a tasty\
-     russian soup  a tasty russian soup  a tasty russian\
-      soup  a tasty russian soup  a tasty russian soup",
-  price: 1400,
-};
+async function getMenu(url: string) {
+  const menuRaw = await fetch(url).then(async (res) => res.json());
+  return menuRaw.dishes;
+}
+
+interface SS {
+  categoryNames: string[];
+  dishes: Item[][];
+}
 
 export function Menu() {
+  const [state, setState] = useState({ categoryNames: [], dishes: [] } as SS);
+  const menuId = window.location.href.split("/").slice(-1)[0];
+  useEffect(() => {
+    getMenu("http://172.16.4.85:5001/menu/" + menuId).then((res) => {
+      state.categoryNames = Object.keys(res) as string[];
+      state.dishes = state.categoryNames.map((name) => {
+        return res[name as keyof typeof res];
+      });
+      setState({
+        categoryNames: Object.keys(res) as string[],
+        dishes: state.categoryNames.map((name) => {
+          return res[name as keyof typeof res];
+        }),
+      });
+    });
+  }, []);
+
   return (
     <MenuContainer>
       <List
@@ -30,33 +43,14 @@ export function Menu() {
         }}
         component="nav"
         aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            Menu
-          </ListSubheader>
-        }
       >
-        <Category name="Soups">
-          <MenuItem {...someDish} />
-          <MenuItem {...someDish} />
-          <MenuItem {...someDish} />
-          <MenuItem {...someDish} />
-          <MenuItem {...someDish} />
-        </Category>
-        <Category name="Meats">
-          <MenuItem {...someDish} />
-          <MenuItem {...someDish} />
-          <MenuItem {...someDish} />
-          <MenuItem {...someDish} />
-          <MenuItem {...someDish} />
-        </Category>
-        <Category name="drinks">
-          <MenuItem {...someDish} />
-          <MenuItem {...someDish} />
-          <MenuItem {...someDish} />
-          <MenuItem {...someDish} />
-          <MenuItem {...someDish} />
-        </Category>
+        {state.categoryNames.map((name, idx) => (
+          <Category name={name}>
+            {state?.dishes[idx].map((item) => (
+              <MenuItem {...item} />
+            ))}
+          </Category>
+        ))}
       </List>
     </MenuContainer>
   );

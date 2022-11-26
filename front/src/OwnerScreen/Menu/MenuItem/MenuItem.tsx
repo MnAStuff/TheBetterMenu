@@ -1,5 +1,5 @@
 import { ListItemButton } from "@mui/material";
-import img from "../../../resources/chicken_square1.png";
+import placeholder from "../../../resources/chicken_square1.png";
 import { Item } from "../../../types/Item";
 import {
   MenuItemContainer,
@@ -20,7 +20,7 @@ export function MenuItem({ name, description, price, image }: Item) {
           </CardHeader>
           <Description>{description}</Description>
         </CardContainer>
-        <Image src={img} />
+        <Image src={image ? image : placeholder} />
       </MenuItemContainer>
     </ListItemButton>
   );

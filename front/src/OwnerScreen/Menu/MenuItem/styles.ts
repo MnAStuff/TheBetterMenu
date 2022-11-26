@@ -30,6 +30,7 @@ export const CardContainer = styled.span`
 `;
 
 export const Image = styled.img`
+  margin-left: auto;
   width: 200px;
   height: 200px;
 `;

@@ -29,13 +29,14 @@ export function OwnerScreen() {
   const handleDrawerClose = () => {
     setState(Object.assign(state, { open: !state.open }));
   };
-  QRCode.toDataURL("I am a pony!")
+  QRCode.toDataURL("http://172.16.4.85:5001/menu/1")
     .then((url) => {
       setState(Object.assign(state, { qr: url }));
     })
     .catch((err) => {
       console.error(err);
     });
+  console.log(state);
   return (
     <Box onClick={handleDrawerClose}>
       <AppBar position="static">
@@ -45,13 +46,14 @@ export function OwnerScreen() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <img src={state.qr}></img>
+
       <Menu />
       <Drawer
         variant="persistent"
         open={state.open}
         sx={{ width: drawerWidth, flexShrink: 0 }}
       >
+        <img src={state.qr}></img>
         <MenuBook color="primary" />
         <TableBar color="primary" />
         <ViewList color="primary" />

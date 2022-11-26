@@ -4,7 +4,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { CategoryContainer, CategoryCard } from "./styles";
 
 type Props = {
-  children: ReactNode[];
+  children: ReactNode[] | ReactNode;
   name: string;
 };
 
